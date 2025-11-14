@@ -1,0 +1,126 @@
+﻿<Window x:Class="BookStore.Modules.OrderAddEdit"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BookStore.Modules"
+        mc:Ignorable="d"
+        Icon="/Images/favicon.ico"
+        Title="{Binding WindowTitle}"
+        Height="690" Width="1000" WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize">
+
+    <Grid Margin="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" Text="{Binding WindowTitle}" Style="{StaticResource WindowTitle}"/>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="3*"/>
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Grid.Column="0" Margin="0 0 16 0">
+                <TextBlock Text="Клиент" Style="{StaticResource FormLabel}"/>
+                <ComboBox ItemsSource="{Binding AllCustomers}"
+                          SelectedItem="{Binding SelectedCustomer, Mode=TwoWay}"
+                          DisplayMemberPath="FullName"
+                          Style="{StaticResource ModernComboBox}"
+                          Margin="0 0 0 12"/>
+
+                <TextBlock Text="Телефон" Style="{StaticResource FormLabel}"/>
+                <TextBox Text="{Binding SelectedCustomer.Phone, Mode=OneWay}" IsReadOnly="True" Style="{StaticResource ModernTextBox}" Margin="0 0 0 12"/>
+
+                <TextBlock Text="Тип оплаты" Style="{StaticResource FormLabel}"/>
+                <ComboBox ItemsSource="{Binding AllPaymentTypes}"
+                          DisplayMemberPath="PaymentName"
+                          SelectedValuePath="PaymentTypeID"
+                          SelectedValue="{Binding SelectedPaymentTypeId}"
+                          Style="{StaticResource ModernComboBox}" Margin="0 0 0 12"/>
+
+                <TextBlock Text="Статус" Style="{StaticResource FormLabel}"/>
+                <ComboBox SelectedItem="{Binding SelectedStatus}" ItemsSource="{Binding AllStatuses}" Style="{StaticResource ModernComboBox}" Margin="0 0 0 12"/>
+
+                <TextBlock Text="Дата заказа" Style="{StaticResource FormLabel}"/>
+                <TextBox Text="{Binding OrderDate, StringFormat='dd.MM.yyyy HH:mm', Mode=OneWay}" IsReadOnly="True" Style="{StaticResource ModernTextBox}" Margin="0 0 0 12"/>
+
+                <TextBlock Text="Дата получения" Style="{StaticResource FormLabel}"/>
+                <TextBox Text="{Binding DeliveryDate, StringFormat='dd.MM.yyyy', Mode=OneWay}" IsReadOnly="True" Style="{StaticResource ModernTextBox}"/>
+
+                <StackPanel Margin="0 40 0 0">
+                    <Button Content="Сохранить" Click="SaveButton_Click" Style="{StaticResource SaveButton}" Margin="0 0 0 8"/>
+                    <Button Content="Отмена" Click="CancelButton_Click" Style="{StaticResource CancelButton}"/>
+                </StackPanel>
+            </StackPanel>
+
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0 0 0 8">
+                    <TextBlock Text="Позиции заказа" Style="{StaticResource FormLabel}" VerticalAlignment="Center"/>
+                    <Button Content="➕ Добавить позицию" Click="AddItem_Click" Style="{StaticResource SecondaryButton}" Padding="10 5" Margin="16 0 0 0"/>
+                </StackPanel>
+
+                <Border Grid.Row="1" BorderBrush="#E0E0E0" BorderThickness="1" CornerRadius="6" Background="White">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <ItemsControl ItemsSource="{Binding Items}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border BorderBrush="#EEE" BorderThickness="0 0 0 1" Padding="8">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>
+
+                                            <ComboBox Grid.Column="0"
+                                                      ItemsSource="{Binding DataContext.AllStoreBooks, RelativeSource={RelativeSource AncestorType=Window}}"
+                                                      SelectedItem="{Binding SelectedBook, Mode=TwoWay}"
+                                                      Style="{StaticResource ModernComboBox}"
+                                                      DisplayMemberPath="Display"
+                                                      Margin="0 0 8 0"/>
+
+                                            <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 0 20 0">
+                                                <Button Content="−" Width="28" Height="28" Click="DecreaseQuantity_Click" Tag="{Binding}" />
+                                                <TextBlock Text="{Binding Quantity}" Width="44" TextAlignment="Center" VerticalAlignment="Center" Margin="6 0"/>
+                                                <Button Content="+" Width="28" Height="28" Click="IncreaseQuantity_Click" Tag="{Binding}" />
+                                            </StackPanel>
+
+                                            <TextBlock Grid.Column="2" Text="{Binding Price, StringFormat='{}{0:N2}₽'}" VerticalAlignment="Center" HorizontalAlignment="Right" FontWeight="SemiBold"/>
+
+                                            <Button Grid.Column="3" Content="🗑️" ToolTip="Удалить позицию" Margin="8 0 0 0" Click="RemoveItem_Click" Tag="{Binding}" Style="{StaticResource SecondaryButton}" Background="Transparent" Foreground="Red"/>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+                </Border>
+
+                <StackPanel Grid.Row="2" Margin="0 12 0 0">
+                    <Separator/>
+                    <Grid Margin="0 8 8 0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="{Binding TotalQuantity, StringFormat='Общее количество: {0} шт.'}" FontWeight="SemiBold"/>
+                        <StackPanel Grid.Column="1" Orientation="Horizontal">
+                            <TextBlock Text="Итого:" VerticalAlignment="Center" FontWeight="Bold" FontSize="18"/>
+                            <TextBlock Text="{Binding TotalAmount, StringFormat=' {0:N2}₽'}" Margin="8 0" VerticalAlignment="Center" FontSize="18" Foreground="{StaticResource PrimaryBrush}" FontWeight="Bold"/>
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="0e027326c37b488891d99e3184394d87" Name="Diagram1" ZoomLevel="66">
+        <EntityTypeShape EntityType="bookStoreModel.Authors" Width="1.5" PointX="1.5" PointY="1" />
+        <EntityTypeShape EntityType="bookStoreModel.Books" Width="1.5" PointX="3.75" PointY="0.75" />
+        <EntityTypeShape EntityType="bookStoreModel.Customers" Width="1.5" PointX="11.75" PointY="4.25" />
+        <EntityTypeShape EntityType="bookStoreModel.OrderItems" Width="1.5" PointX="6.375" PointY="4.375" />
+        <EntityTypeShape EntityType="bookStoreModel.Orders" Width="1.5" PointX="9" PointY="4" />
+        <EntityTypeShape EntityType="bookStoreModel.PaymentType" Width="1.5" PointX="8.25" PointY="1.75" />
+        <EntityTypeShape EntityType="bookStoreModel.Roles" Width="1.5" PointX="1.875" PointY="7.25" />
+        <EntityTypeShape EntityType="bookStoreModel.StoreBooks" Width="1.5" PointX="6.25" PointY="1" />
+        <EntityTypeShape EntityType="bookStoreModel.Stores" Width="1.5" PointX="1.75" PointY="4.25" />
+        <EntityTypeShape EntityType="bookStoreModel.sysdiagrams" Width="1.5" PointX="17.75" PointY="7.875" />
+        <EntityTypeShape EntityType="bookStoreModel.Users" Width="1.5" PointX="4.25" PointY="4.25" />
+        <AssociationConnector Association="bookStoreModel.FK_Books_Authors" />
+        <AssociationConnector Association="bookStoreModel.FK_StoreBooks_Books" />
+        <AssociationConnector Association="bookStoreModel.FK_Orders_Customers1" />
+        <AssociationConnector Association="bookStoreModel.FK_OrderItems_Orders" />
+        <AssociationConnector Association="bookStoreModel.FK_OrderItems_StoreBooks" />
+        <AssociationConnector Association="bookStoreModel.FK_Orders_PaymentType" />
+        <AssociationConnector Association="bookStoreModel.FK_Users_Roles" />
+        <AssociationConnector Association="bookStoreModel.FK_StoreBooks_Stores" />
+        <AssociationConnector Association="bookStoreModel.FK_Users_Stores" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
